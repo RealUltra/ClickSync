@@ -13,3 +13,5 @@
 **Outcome:** Used AI to generate a UI design to my liking.
 
 **Next Steps:** Replicate the AI generated design.
+
+**Notes:** I am decent at frontend development, but I am not good at UI design, so I outsource it to AI.

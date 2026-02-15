@@ -1,9 +1,10 @@
 ﻿import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { resolve } from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
       input: {
@@ -20,5 +21,3 @@ export default defineConfig({
     },
   },
 });
-
-

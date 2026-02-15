@@ -1,8 +1,8 @@
 # ClickSync
 
-An app that allows multiple users to control the same video stream for group watching sessions.
+**Allows multiple people to control the same video stream when watching movies & TV shows with friends.**
 
-## Plan
+## 📄 Initial Plan
 
 - The chrome extension is the client & there is a javascript server.
 

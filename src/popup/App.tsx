@@ -1,7 +1,7 @@
-import "./App.css";
+﻿import AIPopup from "./AIPopup";
 
 function App() {
-  return <h1> ClickSync </h1>;
+  return <AIPopup />;
 }
 
 export default App;

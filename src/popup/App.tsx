@@ -1,7 +1,7 @@
-﻿import AIPopup from "./AIPopup";
+import MockPopup from "./MockPopup";
 
 function App() {
-  return <AIPopup />;
+  return <MockPopup />;
 }
 
 export default App;

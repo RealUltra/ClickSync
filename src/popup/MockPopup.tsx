@@ -1,4 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { MediaSourceInfo } from "../shared/messages";
+import { listMediaSources } from "./utils";
 
 type Screen = "menu" | "party";
 type Tab = "party" | "controls";
@@ -11,30 +13,9 @@ type Member = {
   isYou?: boolean;
 };
 
-type MediaSource = {
-  id: number;
-  title: string;
-  domain: string;
-};
-
 type IconProps = {
   className?: string;
 };
-
-const mockSources: MediaSource[] = [
-  { id: 101, title: "YouTube - LoFi Mix", domain: "youtube.com" },
-  { id: 102, title: "Netflix - Episode 4", domain: "netflix.com" },
-  { id: 103, title: "Prime Video - Movie", domain: "amazon.com" },
-  { id: 104, title: "Vimeo - Showcase Reel", domain: "vimeo.com" },
-  { id: 105, title: "Twitch - Live Stream", domain: "twitch.tv" },
-  { id: 106, title: "Hulu - Season 2", domain: "hulu.com" },
-  { id: 107, title: "Disney+ - Pixar", domain: "disneyplus.com" },
-  { id: 108, title: "Max - Documentary", domain: "max.com" },
-  { id: 109, title: "Plex - Local Library", domain: "plex.tv" },
-  { id: 110, title: "ESPN - Match Replay", domain: "espn.com" },
-  { id: 111, title: "Coursera - Lecture", domain: "coursera.org" },
-  { id: 112, title: "Udemy - Course Module", domain: "udemy.com" },
-];
 
 function makeCode() {
   return Math.random().toString(36).slice(2, 8).toUpperCase();
@@ -151,15 +132,16 @@ function IconArrowRight({ className }: IconProps) {
   );
 }
 
-export default function AIPopup() {
+export default function MockPopup() {
   const [screen, setScreen] = useState<Screen>("menu");
   const [tab, setTab] = useState<Tab>("party");
 
   const [isHost, setIsHost] = useState(false);
   const [partyCode, setPartyCode] = useState(makeCode);
-  const [selectedSource, setSelectedSource] = useState<MediaSource | null>(
+  const [selectedSource, setSelectedSource] = useState<MediaSourceInfo | null>(
     null,
   );
+  const [mediaSources, setMediaSources] = useState<MediaSourceInfo[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(70);
   const [displayName, setDisplayName] = useState("Guest");
@@ -207,10 +189,21 @@ export default function AIPopup() {
 
   function joinParty() {
     setIsHost(false);
-    setSelectedSource(mockSources[0] ?? null);
+    setSelectedSource(mediaSources[0] ?? null);
     setScreen("party");
     setTab("party");
   }
+
+  useEffect(() => {
+    if (screen !== "party" || tab !== "controls" || !isHost) {
+      return;
+    }
+
+    void (async () => {
+      const sources = await listMediaSources();
+      setMediaSources(sources);
+    })();
+  }, [isHost, screen, tab]);
 
   return (
     <main
@@ -505,7 +498,7 @@ export default function AIPopup() {
                         {selectedSource.title}
                       </p>
                       <p className="mt-[2px] mb-0 text-[11px] text-[#54627d]">
-                        {selectedSource.domain}
+                        {selectedSource.hostname}
                       </p>
                     </div>
                     {isHost && (
@@ -524,8 +517,8 @@ export default function AIPopup() {
                       className="m-0 flex list-none flex-col gap-[6px] p-0"
                       aria-label="Media source tabs"
                     >
-                      {mockSources.map((source) => (
-                        <li key={source.id}>
+                      {mediaSources.map((source) => (
+                        <li key={source.tabId}>
                           <button
                             type="button"
                             className="flex w-full flex-col gap-[2px] rounded-[7px] border border-[#c6d1e2] bg-[#fdfefe] p-[7px] text-left"
@@ -535,7 +528,7 @@ export default function AIPopup() {
                               {source.title}
                             </span>
                             <span className="text-[11px] text-[#54627d]">
-                              {source.domain}
+                              {source.hostname}
                             </span>
                           </button>
                         </li>

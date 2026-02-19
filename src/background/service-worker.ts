@@ -1,5 +1,6 @@
 import type { PopupToBackgroundMessage } from "../shared/messages";
 import { listMediaSources } from "./list-media-sources";
+import { sendToOffscreen } from "./offscreen-manager";
 
 chrome.runtime.onMessage.addListener(
   (
@@ -13,6 +14,18 @@ chrome.runtime.onMessage.addListener(
         sendResponse({ sources });
       })();
 
+      return true;
+    }
+
+    if (message.type === "CREATE_PARTY") {
+      console.log("Creating party...");
+      sendToOffscreen({ type: "SERVER_CONNECT" });
+      return true;
+    }
+
+    if (message.type === "JOIN_PARTY") {
+      console.log("Joining party with code:", message.partyCode);
+      sendToOffscreen({ type: "SERVER_CONNECT" });
       return true;
     }
   },

@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         popup: resolve(__dirname, "index.html"),
+        offscreen: resolve(__dirname, "offscreen.html"),
         "service-worker": resolve(
           __dirname,
           "src/background/service-worker.ts",

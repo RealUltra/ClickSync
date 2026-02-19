@@ -32,10 +32,18 @@
 
 **Next Steps:** Build the server.
 
-## 2026-02-19
+## 2026-02-19 (1)
 
 **Goal:** Build main menu UI.
 
 **Outcome:** Built main menu UI.
 
 **Next Steps:** Connect UI to backend.
+
+## 2026-02-19 (2)
+
+**Goal:** Get a websocket connection to the server.
+
+**Outcome:** Offscreen document works, websocket connection successful.
+
+**Next Steps:** Complete the main menu's backend services.

@@ -3,10 +3,12 @@ import DisplayNameInput from "./DisplayNameInput";
 import JoinPartyCard from "./JoinPartyCard";
 import CreatePartyCard from "./CreatePartyCard";
 
-function createParty() {}
+function createParty() {
+  chrome.runtime.sendMessage({ type: "CREATE_PARTY" });
+}
 
 function joinParty(partyCode: string) {
-  console.log("Joining party with code:", partyCode);
+  chrome.runtime.sendMessage({ type: "JOIN_PARTY", partyCode });
 }
 
 const MenuScreen = () => {

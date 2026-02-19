@@ -23,3 +23,11 @@
 **Outcome:** Failed at detecting videos within iframes.
 
 **Next Steps:** Study some reference code that accomplishes this and try to replicate it.
+
+## 2026-02-18
+
+**Goal:** Fix media sources retrieval.
+
+**Outcome:** Fixed media sources retrieval. Completed scaffolding for server.
+
+**Next Steps:** Build the server.

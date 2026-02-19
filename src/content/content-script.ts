@@ -3,17 +3,26 @@ import type {
   MediaProbeResponse,
 } from "../shared/messages";
 
-let hasVideo = false;
+let video: HTMLVideoElement | null = null;
 
-function computeHasVideo() {
-  hasVideo = document.querySelector("video") !== null;
+function findVideo() {
+  const videos = [...document.querySelectorAll("video")];
+  if (!videos.length) return null;
+
+  return videos.sort(
+    (a, b) => b.clientWidth * b.clientHeight - a.clientWidth * a.clientHeight,
+  )[0];
+}
+
+function attachToVideo() {
+  video = findVideo();
 }
 
 // Initial check
-computeHasVideo();
+attachToVideo();
 
 const observer = new MutationObserver(() => {
-  computeHasVideo();
+  attachToVideo();
 });
 
 observer.observe(document.documentElement, {
@@ -31,12 +40,12 @@ chrome.runtime.onMessage.addListener(
 
     console.log("GOT A MEDIA PROBE!");
 
-    // Just in case
-    computeHasVideo();
+    // Just in case the video element exists but isn't attached
+    attachToVideo();
 
-    console.log(`hasVideo = ${hasVideo}`);
+    console.log(`video = ${video !== null}`);
 
-    if (hasVideo) {
+    if (video !== null) {
       sendResponse({ hasVideo: true });
     }
   },

@@ -2,6 +2,10 @@
 
 **Allows multiple people to control the same video stream when watching movies & TV shows with friends.**
 
+## Server
+
+_The server code is accessible on [its GitHub Page](https://github.com/RealUltra/clicksync-server)._
+
 ## 📄 Initial Plan
 
 - The chrome extension is the client & there is a javascript server.

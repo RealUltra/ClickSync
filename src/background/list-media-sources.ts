@@ -1,10 +1,6 @@
 import type { MediaProbeResponse, MediaSourceInfo } from "../shared/messages";
 
-function isWebUrl(url?: string): boolean {
-  return !!url && (url.startsWith("http://") || url.startsWith("https://"));
-}
-
-async function tryProbeOnce(tabId: number): Promise<boolean> {
+async function probeTab(tabId: number): Promise<boolean> {
   try {
     const res = (await chrome.tabs.sendMessage(tabId, {
       type: "MEDIA_PROBE",
@@ -16,13 +12,9 @@ async function tryProbeOnce(tabId: number): Promise<boolean> {
   }
 }
 
-async function probeTab(tabId: number): Promise<boolean> {
-  return await tryProbeOnce(tabId);
-}
-
 export async function listMediaSources(): Promise<MediaSourceInfo[]> {
   const tabs = await chrome.tabs.query({});
-  const candidates = tabs.filter((tab) => tab.id && isWebUrl(tab.url));
+  const candidates = tabs.filter((tab) => tab.id !== undefined);
 
   const results = await Promise.allSettled(
     candidates.map(async (tab) => {

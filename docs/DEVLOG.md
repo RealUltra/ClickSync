@@ -31,3 +31,11 @@
 **Outcome:** Fixed media sources retrieval. Completed scaffolding for server.
 
 **Next Steps:** Build the server.
+
+## 2026-02-19
+
+**Goal:** Build main menu UI.
+
+**Outcome:** Built main menu UI.
+
+**Next Steps:** Connect UI to backend.
